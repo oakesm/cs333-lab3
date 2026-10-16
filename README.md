@@ -48,6 +48,8 @@ Each part uses exactly what we did in class. The `practice/` and `practice-wed/`
    ```
    Type something and press Enter. What does the Console show?
 
+   I typed "harry potter" and the console shows "searching for harry potter"
+
 3. Call the fake search. Add these lines **inside** your submit listener, after the `console.log`:
    ```js
      fakeSearch(query, function (books) {
@@ -55,6 +57,8 @@ Each part uses exactly what we did in class. The `practice/` and `practice-wed/`
      });
    ```
    Search `butler`. After a second, the Console shows what `fakeSearch` sent back. How many books, and what are their titles?
+
+   2 books - Parable of the Sower and Kindred
 
 4. **Show that it's working.** Inside the listener, before `fakeSearch`, add:
    ```js

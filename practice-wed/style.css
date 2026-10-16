@@ -1,0 +1,26 @@
+body {
+    font-family: system-ui, sans-serif;
+    max-width: 35rem;
+    margin: 2rem auto;
+    background: #e2ffe0;
+  }
+
+  h1 {
+    color: #a41de2;
+  }
+
+  #message {
+    font-style: italic;
+  }
+  #list {
+    padding: 0;
+  }
+
+  #list li {
+    list-style: none;
+    background: rgb(191, 255, 194);
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 0.6rem;
+    margin: 0.4rem 0;
+  }

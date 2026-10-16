@@ -21,4 +21,41 @@ function fakeSearch(query, whenDone) {
   }, 1000);
 }
 
-// Your code starts here.
+const form = document.querySelector("#search-form");
+   const input = document.querySelector("#query");
+   const statusMessage = document.querySelector("#status");
+   const results = document.querySelector("#results");
+   function renderResults(books) {
+     results.textContent = "";
+     books.forEach(function (book) {
+       const li = document.createElement("li");
+       li.textContent = book.title + " — " + book.author_name[0] + " (" + book.first_publish_year + ")";
+       const save = document.createElement("button");
+       save.textContent = "Save";
+       save.addEventListener("click", function () {
+         console.log("save", book.title);
+       });
+       li.append(save);
+       results.append(li);
+     });
+   }
+   console.log(form, input, statusMessage, results);
+
+   form.addEventListener("submit", function (event) {
+     event.preventDefault();
+     const query = input.value;
+     console.log("searching for", query);
+     statusMessage.textContent = "Searching...";
+     fakeSearch(query, function (books) {
+  console.log("got", books);
+
+  if (books.length === 0) {
+    statusMessage.textContent = "No books found";
+  } else {
+    statusMessage.textContent = "";
+  }
+
+  renderResults(books);
+  });
+  });
+     
