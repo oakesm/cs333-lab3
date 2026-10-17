@@ -1,61 +1,80 @@
-// Part 1: a pretend library. In Part 2 you replace fakeSearch with a real search using fetch.
-const FAKE_BOOKS = [
-  { key: "/works/OL893414W", title: "Dune", author_name: ["Frank Herbert"], first_publish_year: 1965 },
-  { key: "/works/OL35623W", title: "Parable of the Sower", author_name: ["Octavia E. Butler"], first_publish_year: 1993 },
-  { key: "/works/OL35616W", title: "Kindred", author_name: ["Octavia E. Butler"], first_publish_year: 1979 },
-  { key: "/works/OL66554W", title: "Pride and Prejudice", author_name: ["Jane Austen"], first_publish_year: 1813 },
-  { key: "/works/OL27513W", title: "The Fellowship of the Ring", author_name: ["J.R.R. Tolkien"], first_publish_year: 1954 },
-  { key: "/works/OL1168083W", title: "Nineteen Eighty-Four", author_name: ["George Orwell"], first_publish_year: 1949 },
-];
+const list = document.querySelector("#list");
+const message = document.querySelector("#message");
 
-// Pretends to be a slow website: after one second it calls whenDone with the books that match.
-function fakeSearch(query, whenDone) {
-  setTimeout(() => {
-    const q = query.toLowerCase();
-    const matches = FAKE_BOOKS.filter(
-      (book) =>
-        book.title.toLowerCase().includes(q) ||
-        book.author_name.some((name) => name.toLowerCase().includes(q))
-    );
-    whenDone(matches);
-  }, 1000);
-}
-
-const form = document.querySelector("#search-form");
-   const input = document.querySelector("#query");
-   const statusMessage = document.querySelector("#status");
-   const results = document.querySelector("#results");
-   function renderResults(books) {
-     results.textContent = "";
-     books.forEach(function (book) {
-       const li = document.createElement("li");
-       li.textContent = book.title + " — " + book.author_name[0] + " (" + book.first_publish_year + ")";
-       const save = document.createElement("button");
+function addItem(book) {
+  const li = document.createElement("li");
+const author = book.author_name ? book.author_name[0] : "Unknown author";
+li.textContent = book.title + " – " + author + " ";  const save = document.createElement("button");
        save.textContent = "Save";
        save.addEventListener("click", function () {
          console.log("save", book.title);
+          readingList.push(book);
+          renderReadingList();
        });
        li.append(save);
-       results.append(li);
-     });
-   }
-   console.log(form, input, statusMessage, results);
+  list.append(li);
+}
 
-   form.addEventListener("submit", function (event) {
-     event.preventDefault();
-     const query = input.value;
-     console.log("searching for", query);
-     statusMessage.textContent = "Searching...";
-     fakeSearch(query, function (books) {
-  console.log("got", books);
+// A JavaScript object: lives in your code
+const book = { title: 'Dune', year: 1965 };
+console.log(JSON.stringify({ title: 'Dune' }))
 
-  if (books.length === 0) {
-    statusMessage.textContent = "No books found";
-  } else {
-    statusMessage.textContent = "";
+const form = document.querySelector("#search-form");
+const input = document.querySelector("#query");
+
+async function getBooks(query) {
+  message.textContent = "Searching...";
+  const url = "https://openlibrary.org/search.json?limit=10&q=" + encodeURIComponent(query);
+  console.log("fetching", url);
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    list.textContent = "";
+    data.docs.forEach(function (book) {
+      let author = "Unknown author";
+       if(book.author_name) {
+      author = book.author_name[0]
+      addItem(book);
+      }
+
+      addItem(book);
+      addItem(book.title + " — " + author);
+      
+    });
+    message.textContent = "Found " + data.docs.length + " books";
+    if (data.docs.length === 0) {
+      message.textContent = "No books found";
+    }
+  } catch (error) {
+    console.log("something went wrong:", error);
+    message.textContent = "Couldn't reach the library. Check your connection.";
   }
+}
+const readingListElement = document.querySelector("#reading-list");
+    const readingList = [];
 
-  renderResults(books);
-  });
-  });
-     
+    function renderReadingList() {
+      readingListElement.textContent = "";
+      readingList.forEach(function (book, index) {
+        const li = document.createElement("li");
+        li.textContent = book.title + " ";
+
+        const remove = document.createElement("button");
+        remove.textContent = "Remove";
+        remove.addEventListener("click", function () {
+          readingList.splice(index, 1);
+          renderReadingList();
+        });
+
+        li.append(remove);
+        readingListElement.append(li);
+      });
+    }
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  getBooks(input.value);
+});
+
+

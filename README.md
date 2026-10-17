@@ -286,6 +286,12 @@ Your Book Finder works; now make it look like *yours*. Everything here goes at t
 
 **Question:** what did you change, and why? Add a screenshot of your Book Finder before and after to this README.
 
+I changed the background colors and the color behind the book list. 
+
+After:
+
+![After]({0F816728-69F0-4690-B457-DA2700300128}.png)
+
 ## Deploy it
 
 14. Add Lab 3 to your landing page: a link `href="lab3/"` and a line saying what it is. Check that the **← Home** link at the top of Book Finder goes back.
