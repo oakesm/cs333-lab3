@@ -286,7 +286,7 @@ Your Book Finder works; now make it look like *yours*. Everything here goes at t
 
 **Question:** what did you change, and why? Add a screenshot of your Book Finder before and after to this README.
 
-I changed the background colors and the color behind the book list. 
+I changed the background colors and the color behind the book list. I also changed the font to match my homepage. 
 
 After:
 
@@ -298,6 +298,9 @@ After:
 15. SFTP `index.html`, `style.css` and `app.js` into a `lab3/` folder in your web folder, plus your updated landing page.
 16. Open `https://lampforall.cis251296.projects.jetstream-cloud.org/students/yourname/lab3/` and test everything there: search, Save, Remove.
 17. One bug you hit in this lab: what was it, and what did the Console show you?
+
+I was missing an id for reading-list and the console showed me "cannot set properties of null". 
+
 18. Push this repo (code **and** this README with your answers) to **your own GitHub repo**.
 19. Submit in Moodle three links: (1) your GitHub repo, (2) your landing page, and (3) your live Book Finder.
 
